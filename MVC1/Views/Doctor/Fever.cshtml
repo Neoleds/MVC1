@@ -1,0 +1,39 @@
+﻿
+@{
+    ViewData["Title"] = "Fever";
+}
+
+<h1>Fever</h1>
+
+<p>Skriv in din temperatur för att se om du har feber:</p>
+
+<input type="number" id="temp" onchange="checkTemp()" />
+<button onchange="checkTemp()">Titta temperaturen</button>
+
+<p id="show"></p>
+
+
+<script>
+
+    function checkTemp(){
+
+    var temp = document.getElementById("temp").value;
+    var showText;
+    
+
+        if(temp >= 38){
+            showText = "Du har feber.";
+        }
+        else if(temp < 28){
+            showText = "Du har hypotermi.";
+        }
+        else{
+            showText = "Du har inte feber.";
+        }
+        document.getElementById("show").innerHTML = showText;
+    }
+</script>
+
+
+
+
