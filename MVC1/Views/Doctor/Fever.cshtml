@@ -1,39 +1,15 @@
-﻿
-@{
+﻿@{
     ViewData["Title"] = "Fever";
 }
 
 <h1>Fever</h1>
 
 <p>Skriv in din temperatur för att se om du har feber:</p>
+<form asp-controller="Doctor" asp-action="Fever" method="post">
 
-<input type="number" id="temp" onchange="checkTemp()" />
-<button onchange="checkTemp()">Titta temperaturen</button>
+    <input type="number" name="temp" />
+    <input type="submit" value="Titta temperaturen">
 
-<p id="show"></p>
+</form>
 
-
-<script>
-
-    function checkTemp(){
-
-    var temp = document.getElementById("temp").value;
-    var showText;
-    
-
-        if(temp >= 38){
-            showText = "Du har feber.";
-        }
-        else if(temp < 28){
-            showText = "Du har hypotermi.";
-        }
-        else{
-            showText = "Du har inte feber.";
-        }
-        document.getElementById("show").innerHTML = showText;
-    }
-</script>
-
-
-
-
+<p>@ViewBag.msg</p>

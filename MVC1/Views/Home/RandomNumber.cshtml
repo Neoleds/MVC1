@@ -7,43 +7,9 @@
 
 <p>Ett nummer mellan 1 och 100 har skapats. Se om du kan gissa vilket:</p>
 
-<input type="number" id="numberGuess" onchange="guessNum()" />
-<button onchange="guessNum()">Gissa</button>
+<form asp-controller="Home" asp-action="RandomNumber" method="post"> 
+    <input type="number" name="guess" />
+    <input type="submit" value="Gissa">
+</form>
 
-<p id="show"></p>
-<p id="supersecret"></p>
-
-<script>
-
-    function guessNum() {
-        
-        var guess = document.getElementById("numberGuess").value;
-        var showText;
-        var secretNum = window.sessionStorage.getItem("secretNum");
-
-        if (secretNum === null) {
-            secretNum = generateRandomNumber();
-            window.sessionStorage.setItem("secretNum", secretNum);
-        }
-
-        if(guess > secretNum) {
-            showText = "Gissa lägre.";
-        }
-        else if(guess < secretNum) {
-            showText = "Gissa högre.";
-        }
-        else {
-            showText = "Du gissade rätt nummer. Ett nytt nummer har nu blivit genererat.";
-            secretNum = generateRandomNumber();
-            window.sessionStorage.setItem("secretNum", secretNum);
-        }
-        document.getElementById("show").innerHTML = showText;
-        //document.getElementById("supersecret").innerHTML = secretNum;
-    }
-
-    function generateRandomNumber() {
-        return Math.floor(Math.random() * 100) + 1;
-    }
-
-</script>
-
+<p>@ViewBag.msg</p>

@@ -22,8 +22,40 @@ namespace MVC1.Views.Shared
         {
             return View();
         }
+        [HttpGet]
         public IActionResult RandomNumber()
         {
+            String randomNumber = HttpContext.Session.GetString("randomNumber");
+
+            if (randomNumber == null)
+            {
+                Random randomID = new Random(Guid.NewGuid().GetHashCode());
+                int secretNum = randomID.Next(1, 100);
+                HttpContext.Session.SetString("randomNumber", secretNum.ToString());
+            }
+
+            return View();
+        }
+        [HttpPost]
+        public IActionResult RandomNumber(int guess)
+        {
+            int randomNumber = Int32.Parse(HttpContext.Session.GetString("randomNumber"));
+            if (guess > randomNumber)
+            {
+                ViewBag.msg = "Gissa lägre.";
+            }
+            else if (guess < randomNumber)
+            {
+                ViewBag.msg = "Gissa högre.";
+            }
+            else
+            {
+                ViewBag.msg = "Du gissade rätt nummer. Ett nytt nummer har nu blivit genererat.";
+                Random randomID = new Random(Guid.NewGuid().GetHashCode());
+                int secretNum = randomID.Next(1, 100);
+                HttpContext.Session.SetString("randomNumber", secretNum.ToString());
+
+            }
             return View();
         }
     }
