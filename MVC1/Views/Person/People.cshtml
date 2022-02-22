@@ -1,0 +1,30 @@
+﻿@model MVC1.ViewModels.PersonViewModel
+@{
+    ViewData["Title"] = "People";
+}
+
+<h1>People list</h1>
+
+<form asp-controller="Person" asp-action="AddPeople" method="post">
+
+    Lägg till en person i listan:<br />
+    <input type="text" placeholder="Namn" name="name" />
+    <input type="text" placeholder="Telefonnummer" name="number" />
+    <input type="text" placeholder="Stad" name="city" />
+    <input type="submit" value="Lägg till person">
+
+</form>
+
+@for (var i=0; i<@Model.PeopleDataList.Count; i++)
+{
+    var CurrentPeopleData = @Model.PeopleDataList[i];
+    <p>
+        <b>Namn:</b> @CurrentPeopleData.Name 
+        <b>Telefonnummer:</b> @CurrentPeopleData.Number 
+        <b>Stad:</b> @CurrentPeopleData.City 
+        <a asp-controller="Person" asp-action="DeletePerson" asp-route-index="@i">Delete</a>
+    </p>
+        
+}
+
+
