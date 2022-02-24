@@ -5,13 +5,19 @@
 
 <h1>People list</h1>
 
+<form asp-controller="Person" asp-action="Search" method="post">
+    Sök efter en person eller stad i listan: <br />
+    <input type="text" name="search" />
+    <input type="submit" value="Sök" />
+</form>
+
 <form asp-controller="Person" asp-action="AddPeople" method="post">
 
     Lägg till en person i listan:<br />
     <input type="text" placeholder="Namn" name="name" />
     <input type="text" placeholder="Telefonnummer" name="number" />
     <input type="text" placeholder="Stad" name="city" />
-    <input type="submit" value="Lägg till person">
+    <input type="submit" value="Lägg till person" />
 
 </form>
 

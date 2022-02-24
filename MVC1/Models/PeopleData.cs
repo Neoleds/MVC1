@@ -7,10 +7,12 @@
             Name = name;
             Number = number;
             City = city;
+            
         }
 
         public string Name { get; set; }
         public int Number { get; set; }
         public string City { get; set; }
+
     }
 }
