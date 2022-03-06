@@ -21,16 +21,20 @@
 
 </form>
 
+
+<div class="container">
 @for (var i=0; i<@Model.PeopleDataList.Count; i++)
 {
-    var CurrentPeopleData = @Model.PeopleDataList[i];
+    
+<div class="row">
     <p>
-        <b>Namn:</b> @CurrentPeopleData.Name 
-        <b>Telefonnummer:</b> @CurrentPeopleData.Number 
-        <b>Stad:</b> @CurrentPeopleData.City 
-        <a asp-controller="Person" asp-action="DeletePerson" asp-route-index="@i">Delete</a>
+
+    <partial name="ListPartialView" model="@Model.PeopleDataList[i]" />
+    <a asp-controller="Person" asp-action="DeletePerson" asp-route-index="@i">Delete</a>
     </p>
-        
+</div>
+
 }
+</div>
 
 
