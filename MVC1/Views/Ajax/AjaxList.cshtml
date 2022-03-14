@@ -1,0 +1,58 @@
+﻿@{
+    ViewData["Title"] = "AjaxList";
+}
+
+<h1>Ajax list</h1>
+
+<button onclick="getPeopleList()">People</button>
+<br />
+<br />
+<input type="number" placeholder="Skriv ett id" name="idToFind" />
+<button onclick="findId()">Sök ID</button>
+<button onclick="deleteId()">Ta bort ID</button>
+
+<div id="page">
+</div>
+<script>
+
+    function getPeopleList() {
+        $.get("Load", function(data, status) {
+            $('#page').html(data);
+            console.log("Data: " + data + "\nStatus: " + status);
+        });
+    }
+
+    function findId(){
+        $.post("FindPerson", { id:$("input[name=idToFind]").val() }, function(data, status){
+            
+            $('#page').html(data);
+            console.log("Data: " + data + "\nStatus: " + status);
+        })
+        .fail(function(jqXHR, textStatus){
+            if (jqXHR.status === 404) {
+                alert("Id not found in people list.")
+            } else {
+                alert("Something went wrong while trying to search for the person.")
+            }
+            
+        })
+    }
+
+    function deleteId(){
+        $.post("DeletePerson", { id:$("input[name=idToFind]").val() }, function(data, status){
+            if (status == "success"){
+                $('#page').html("ID borttaget");
+            }
+            console.log("Data: " + data + "\nStatus: " + status);
+        })
+        .fail(function(jqXHR, textStatus){
+            if (jqXHR.status === 404) {
+                alert("Id hittades inte i people list.")
+            } else {
+                alert("Something went wrong while trying to delete the person")
+            }
+            
+        })
+    }
+
+</script>

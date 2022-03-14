@@ -29,12 +29,14 @@
 <div class="row">
     <p>
 
-    <partial name="ListPartialView" model="@Model.PeopleDataList[i]" />
-    <a asp-controller="Person" asp-action="DeletePerson" asp-route-index="@i">Delete</a>
+    <partial name="PeopleDataPartialView" model="@Model.PeopleDataList[i]" />
+    <a asp-controller="Person" asp-action="DeletePerson" asp-route-id="@Model.PeopleDataList[i].Id">Delete</a>
     </p>
 </div>
 
 }
 </div>
+
+
 
 
