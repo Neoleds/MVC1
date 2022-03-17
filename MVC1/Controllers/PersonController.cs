@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using MVC1.Models;
+using MVC1.Data;
 using MVC1.ViewModels;
 using System.Linq;
 
@@ -12,18 +13,31 @@ namespace MVC1.Controllers
         private static List<PeopleData> _searchPeople = new List<PeopleData>();
         private static int id = 0;
 
+        private readonly ApplicationDbContext _context;
+        public PersonController(ApplicationDbContext context)
+        {
+            _context = context;
+        }
+
         [HttpPost]
         public IActionResult AddPeople(CreatePersonViewModel createPersonViewModel)
         {
-            _searchPeople.Clear();
-            _people.Add(new PeopleData(id++, createPersonViewModel.Name, createPersonViewModel.Number, createPersonViewModel.City));
+            //_searchPeople.Clear();
+            //_people.Add(new PeopleData(id++, createPersonViewModel.Name, createPersonViewModel.Number, createPersonViewModel.City));
+
+            if (ModelState.IsValid)
+            {
+                _context.People.Add(new PeopleData(id++, createPersonViewModel.Name, createPersonViewModel.Number, createPersonViewModel.City));
+                _context.SaveChanges();
+            }
+            
             return RedirectToAction("People");
         }
 
         [HttpGet]
         public ViewResult People()
         {
-            PersonViewModel PeopleViewModel = new PersonViewModel(_people);
+            PersonViewModel PeopleViewModel = new PersonViewModel(_context.People.ToList());
 
             PersonViewModel SearchViewModel = new PersonViewModel(_searchPeople);
 
@@ -35,13 +49,18 @@ namespace MVC1.Controllers
             {
                 return View(SearchViewModel);
             }
-            
+
         } 
 
         public IActionResult DeletePerson(int id)
         {
-            PeopleData peopleData = _people.Find(x => x.Id == id);
-            _people.Remove(peopleData);
+            //PeopleData peopleData = _people.Find(x => x.Id == id);
+            //_people.Remove(peopleData);
+
+            var personToDelete = _context.People.Find(id);
+            _context.People.Remove(personToDelete);
+            _context.SaveChanges();
+
             return RedirectToAction("People");
         }
         
@@ -52,15 +71,18 @@ namespace MVC1.Controllers
             {
                 return RedirectToAction("People");
             }
-            for (var i = 0; i < _people.Count; i++)
+
+            var personToFindList = _context.People.ToList();
+
+            for (var i = 0; i < personToFindList.Count; i++)
             {
-                if (_people[i].Name.ToLower().Equals(search.ToLower()))
+                if (personToFindList[i].Name.ToLower().Equals(search.ToLower()))
                 {
-                    _searchPeople.Add(_people[i]);
+                    _searchPeople.Add(personToFindList[i]);
                 }
-                else if (_people[i].City.ToLower().Equals(search.ToLower()))
+                else if (personToFindList[i].City.ToLower().Equals(search.ToLower()))
                 {
-                    _searchPeople.Add(_people[i]);
+                    _searchPeople.Add(personToFindList[i]);
                 }
 
             }
@@ -69,8 +91,12 @@ namespace MVC1.Controllers
 
         public IActionResult LoadList() 
         {
-            PersonViewModel personViewModel = new PersonViewModel(_people);
+            //PersonViewModel personViewModel = new PersonViewModel(_people);
+            //return PartialView("PeopleDataListPartialView", personViewModel);
+
+            PersonViewModel personViewModel = new PersonViewModel(_context.People.ToList());
             return PartialView("PeopleDataListPartialView", personViewModel);
+            
         }
         public IActionResult FindPersonAjax(int id)
         {
