@@ -27,7 +27,7 @@ namespace MVC1.Controllers
 
             if (ModelState.IsValid)
             {
-                _context.People.Add(new PeopleData(id++, createPersonViewModel.Name, createPersonViewModel.Number, createPersonViewModel.City));
+                _context.People.Add(new PeopleData(id++, createPersonViewModel.Name, createPersonViewModel.Number, createPersonViewModel.Name));
                 _context.SaveChanges();
             }
             
@@ -74,18 +74,18 @@ namespace MVC1.Controllers
 
             var personToFindList = _context.People.ToList();
 
-            for (var i = 0; i < personToFindList.Count; i++)
-            {
-                if (personToFindList[i].Name.ToLower().Equals(search.ToLower()))
-                {
-                    _searchPeople.Add(personToFindList[i]);
-                }
-                else if (personToFindList[i].City.ToLower().Equals(search.ToLower()))
-                {
-                    _searchPeople.Add(personToFindList[i]);
-                }
+            //for (var i = 0; i < personToFindList.Count; i++)
+            //{
+            //    if (personToFindList[i].Name.ToLower().Equals(search.ToLower()))
+            //    {
+            //        _searchPeople.Add(personToFindList[i]);
+            //    }
+            //    else if (personToFindList[i].City.Name.ToLower().Equals(search.ToLower()))
+            //    {
+            //        _searchPeople.Add(personToFindList[i]);
+            //    }
 
-            }
+            //}
             return RedirectToAction("People");
         }
 

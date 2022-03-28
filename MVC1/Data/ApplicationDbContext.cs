@@ -11,5 +11,9 @@ namespace MVC1.Data
         }
 
         public DbSet<PeopleData> People { get; set; }
+
+        public DbSet<CityData> City { get; set; }
+
+        public DbSet<CountryData> Country { get; set; }
     }
 }
